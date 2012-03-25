@@ -1,7 +1,7 @@
 # http://remotescripts.blogspot.com
 
-from ProjectY import ProjectY
+from HumanMaschine import HumanMaschine
 
 def create_instance(c_instance):
     """ Creates and returns the ProjectY script """
-    return ProjectY(c_instance)
+    return HumanMaschine(c_instance)
