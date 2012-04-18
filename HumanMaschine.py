@@ -23,6 +23,7 @@ from _Framework.EncoderElement import EncoderElement # Class encapsulating all f
 from MaschineSessionComponent import MaschineSessionComponent
 from MaschineNavigationComponent import MaschineNavigationComponent
 from LooperComponent import LooperComponent
+from MaschineMixerComponent import MaschineMixerComponent
 
 
 CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
@@ -52,8 +53,9 @@ class HumanMaschine(ControlSurface):
 
         MaschineNavigationComponent(
             left_button = ButtonElement(True, MIDI_CC_TYPE, 3, 37), 
-            right_button = ButtonElement(True, MIDI_CC_TYPE, 3, 38))
-
+            right_button = ButtonElement(True, MIDI_CC_TYPE, 3, 38),
+            detail_toggle_button = ButtonElement(True, MIDI_CC_TYPE, 3, 99),
+            clip_track_button = ButtonElement(True, MIDI_CC_TYPE, 3, 100))
        #self.override_update()
 
 
@@ -61,7 +63,7 @@ class HumanMaschine(ControlSurface):
         is_momentary = True # We use non-latching buttons (keys) throughout, so we'll set this as a constant
         num_tracks = 4 # Here we define the mixer width in tracks (a mixer has only one dimension)
         global mixer # We want to instantiate the global mixer as a MixerComponent object (it was a global "None" type up until now...)
-        mixer = MixerComponent(num_tracks, 0, with_eqs=False, with_filters=False) #(num_tracks, num_returns, with_eqs, with_filters)
+        mixer = MaschineMixerComponent(num_tracks) #(num_tracks, num_returns, with_eqs, with_filters)
 
         mixer.set_track_offset(0) #Sets start point for mixer strip (offset from left)
 
