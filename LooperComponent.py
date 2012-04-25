@@ -30,6 +30,8 @@ class LooperComponent():
       self._loop_length = self._current_clip.loop_end - self._current_clip.loop_start
       self._current_clip.looping = 0
 
+    else:
+      self._loop_length = 16
 
 
   def set_loop_toggle_button(self, button):
@@ -64,7 +66,10 @@ class LooperComponent():
             current_clip.loop_start = 0.0
           if was_playing == 0:
             current_clip.looping = 0
-
+        if current_clip.looping == 0:
+          self._loop_toggle_button.send_value(0)
+        else:
+          self._loop_toggle_button.send_value(127)
 
   def set_loop_start_button(self, button):
     assert ((button == None) or (isinstance(button, ButtonElement) and button.is_momentary()))
@@ -74,6 +79,7 @@ class LooperComponent():
       self._loop_start_button = button
       if (self._loop_start_button != None):
         self._loop_start_button.add_value_listener(self.move_loop_start)
+        self._loop_start_button.send_value(127, True)
 
   def move_loop_start(self, value):
     if value >= 1: 
@@ -106,6 +112,7 @@ class LooperComponent():
       self._loop_double_button = button
       if (self._loop_double_button != None):
         self._loop_double_button.add_value_listener(self.increase_loop)
+        self._loop_double_button.send_value(127, True)
 
   # Doubles loop without shift
   # Moves loop one bar right with shift
@@ -137,6 +144,7 @@ class LooperComponent():
       self._loop_halve_button = button
       if (self._loop_halve_button != None):
         self._loop_halve_button.add_value_listener(self.decrease_loop)
+        self._loop_halve_button.send_value(127, True)
 
   # halves loop without shift
   # left loop one bar right with shift

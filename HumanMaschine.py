@@ -1,4 +1,5 @@
 import Live # This allows us (and the Framework methods) to use the Live API on occasion
+
 import time
 
 from _Framework.ButtonElement import ButtonElement # Class representing a button a the controller
@@ -24,6 +25,7 @@ from MaschineSessionComponent import MaschineSessionComponent
 from MaschineNavigationComponent import MaschineNavigationComponent
 from LooperComponent import LooperComponent
 from MaschineMixerComponent import MaschineMixerComponent
+from MaschineTransportComponent import MaschineTransportComponent
 
 
 CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
@@ -158,15 +160,18 @@ class HumanMaschine(ControlSurface):
 
     def _setup_transport_control(self):
       is_momentary = True
-      transport = TransportComponent()
+
+      nudge_up_button = ButtonElement(is_momentary, MIDI_CC_TYPE, 0, 112)
+      nudge_down_button = ButtonElement(is_momentary, MIDI_CC_TYPE, 0, 111)
+
+      transport = MaschineTransportComponent()
+      transport.set_tempo_control(EncoderElement(MIDI_CC_TYPE, 1, 8, Live.MidiMap.MapMode.absolute))
       transport.set_overdub_button(ButtonElement(is_momentary, MIDI_NOTE_TYPE, CHANNEL, 70))
       transport.set_play_button(ButtonElement(is_momentary, MIDI_CC_TYPE, CHANNEL, 108))    
       transport.set_stop_button(ButtonElement(is_momentary, MIDI_CC_TYPE, CHANNEL, 109))    
       transport.set_record_button(ButtonElement(is_momentary, MIDI_CC_TYPE, CHANNEL, 110))    
       transport.set_metronome_button(ButtonElement(is_momentary, MIDI_CC_TYPE, 3, 52))
 
-      nudge_up_button = ButtonElement(is_momentary, MIDI_CC_TYPE, 0, 112)
-      nudge_down_button = ButtonElement(is_momentary, MIDI_CC_TYPE, 0, 111)
       transport.set_nudge_buttons(nudge_up_button, nudge_down_button)
 
 
