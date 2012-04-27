@@ -16,9 +16,11 @@ class MaschineChanStripComponent(ChannelStripComponent):
 
 
     def _select_value(self, value):
+        was_selected = (self.song().view.selected_track == self._track)
         ChannelStripComponent._select_value(self, value)
 
-        if (self.is_enabled() and (self._track != None)):
+        
+        if was_selected and self.is_enabled() and (self._track != None):
           if (value >= 1):
               if self.application().view.is_view_visible('Detail/Clip'):
                   self.application().view.show_view('Detail/DeviceChain')
